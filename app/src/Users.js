@@ -1,61 +1,47 @@
 import * as React from "react";
 
-import * as apiClient from "./apiClient";
-
-const Users = ({ user, setUser }) => {
-  const [users, setUsers] = React.useState([]);
-
-  const loadUsers = async () => setUsers(await apiClient.getUsers());
-  // const addTask = (task) => apiClient.addTask(task).then(loadTasks);
-
-  React.useEffect(() => {
-    loadUsers();
-  }, []);
-
+const Users = ({ users, setUser }) => {
   return (
     <section>
-      <Login />
-      <UsersList users={users} />
-      {/* <AddTask {...{ addTask }} /> */}
+      <Login {...{ users, setUser }} />
+      <UsersList {...users} />
     </section>
   );
 };
 
-const Login = () => {
-  return <h3>LOGIN</h3>;
+const Login = ({ users, setUser }) => {
+  console.log(users);
+  return (
+    <>
+      <form>
+        <label>
+          Which user are you?
+          <select>
+            <option value="undefined">Choose a user</option>
+            {users.map((user, index) => (
+              <option key={user.id} value={user} onChange={() => setUser(user)}>
+                {user.username}
+              </option>
+            ))}
+          </select>
+        </label>
+      </form>
+    </>
+  );
 };
 
-const UsersList = ({ users }) => (
-  <ul>
-    {users.map(({ id, username, email }) => (
+const UsersList = ({ users }) => {
+  // console.log(users);
+
+  return users?.length ? (
+    users.map(({ id, username, email }) => (
       <li key={id}>
         {username} - {email}
       </li>
-    ))}
-  </ul>
-);
-
-// const AddTask = ({ addTask }) => {
-//   const [task, setTask] = React.useState("");
-
-//   const canAdd = task !== "";
-
-//   const onSubmit = (e) => {
-//     e.preventDefault();
-//     if (canAdd) {
-//       addTask(task);
-//       setTask("");
-//     }
-//   };
-
-// return (
-//   <form onSubmit={onSubmit}>
-//     <label>
-//       New task:{" "}
-//       <input onChange={(e) => setTask(e.currentTarget.value)} value={task} />
-//     </label>
-//     <button disabled={!canAdd}>Add</button>
-//   </form>
-// );
+    ))
+  ) : (
+    <p>Loading users...</p>
+  );
+};
 
 export default Users;
