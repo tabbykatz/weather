@@ -7,12 +7,11 @@ const Weather = (user) => {
 
   const loadWeather = async () =>
     setWeather(await apiClient.getWeather("Berkeley"));
-  console.log(weather);
   React.useEffect(() => {
     loadWeather();
   }, []);
 
-  return <div>Weather here</div>;
+  return <div>{Object.keys(weather)}</div>;
 };
 
 export default Weather;

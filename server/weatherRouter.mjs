@@ -8,13 +8,12 @@ const api = {
 
 const weatherRouter = express.Router();
 
-weatherRouter.get("/:city", async (request, response) => {
-  const url = `${api.base}${request.params.city}&appid=${api.key}`;
+weatherRouter.get("/:city", async (request, response) =>
   response.json(
     await fetch(
       "https://api.openweathermap.org/data/2.5/weather?q=Berkeley&appid=69a17d2dc6f7fe84af1160bf8322b9bd",
     ),
-  );
-});
+  ),
+);
 
 export default weatherRouter;
