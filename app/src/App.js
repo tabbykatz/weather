@@ -2,31 +2,36 @@ import * as React from "react";
 
 import { Routes, Route, Link } from "react-router-dom";
 
-import Tasks from "./Tasks";
+import Users from "./Users";
+import Weather from "./Weather";
 
-const App = () => (
-  <main>
-    <nav>
-      <Link to="/">Home</Link> | <Link to="dashboard">Dashboard</Link>
-    </nav>
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-    </Routes>
-  </main>
-);
+const App = () => {
+  const [user, setUser] = React.useState({});
+  return (
+    <main>
+      <nav>
+        <h3>Weather!</h3>
+        <Link to="/">Home</Link> | <Link to="dashboard">Dashboard</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home {...{ user, setUser }} />} />
+        <Route path="/dashboard" element={<Dashboard {...user} />} />
+      </Routes>
+    </main>
+  );
+};
 
-const Home = () => (
+const Home = ({ user, setUser }) => (
   <>
-    <h1>{process.env.REACT_APP_TITLE}</h1>
-    <h2>{process.env.REACT_APP_SUBTITLE}</h2>
-    <Tasks />
+    <Users {...{ user, setUser }} />
+    <Weather {...user} />
   </>
 );
 
-const Dashboard = () => (
+const Dashboard = (user) => (
   <>
-    <h1>Dashboard</h1>
+    <h1>Your Profile</h1>
+    <p>update profile stuff</p>
   </>
 );
 
